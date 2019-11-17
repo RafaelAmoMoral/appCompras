@@ -30,6 +30,9 @@ export class RegistroComponent implements OnInit {
 
   form: FormGroup;
   register: any;
+  registered: boolean = false;
+  error: string;
+  displayError: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private autService: AutenticacionService,
     private router: Router, private activatedRouter: ActivatedRoute) {
@@ -44,7 +47,7 @@ export class RegistroComponent implements OnInit {
       Validators.minLength(6)]]
     });
     this.form.valueChanges.subscribe(data => this.onValueChanged(data));
-     this.onValueChanged();
+    this.onValueChanged();
   }
 
   onValueChanged(data?: any) {
@@ -74,8 +77,14 @@ export class RegistroComponent implements OnInit {
 
   onSubmit() {
     this.register = this.saveUserdata();
-    this.autService.registroUsuario(this.register);
-    this.router.navigate(['/inicio'])
+    this.autService.registroUsuario(this.register).then(
+      userCredential => this.router.navigate(['/inicio'])
+    ).catch(
+      error => { //Introducir un usuario ya registrado
+        this.error = error
+        this.displayError = true;
+      }
+    )
   }
 
   saveUserdata() {

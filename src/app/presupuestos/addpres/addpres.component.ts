@@ -11,10 +11,10 @@ export class AddpresComponent implements OnInit {
 
   presupuestoForm: FormGroup;
   presupuesto: any;
-  base: any;
-  tipo: any;
-  iva: any = 0;
-  total: any = 0;
+  base: number;
+  tipo: number;
+  iva: number = 0;
+  total: number = 0;
 
   constructor(private pf: FormBuilder, private presupuestoService: PresupuestosService) { }
 
@@ -24,7 +24,7 @@ export class AddpresComponent implements OnInit {
         proveedor: ['', Validators.required],
         fecha: ['', Validators.required],
         concepto: ['',[ Validators.required, Validators.minLength(10)]],
-        base: ['', Validators.required],
+        base: ['', [Validators.required, Validators.min(0)]],
         tipo: ['', Validators.required],
         iva: this.iva,
         total: this.total

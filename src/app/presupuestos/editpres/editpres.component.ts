@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PresupuestosService } from '../../servicios/presupuestos.service';
 import { Router, ActivatedRoute } from '@angular/router'
-// La clase ActivatedRoutded nos permite acceder a otros elementos de 
 
 @Component({
   selector: 'app-editpres',

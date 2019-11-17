@@ -1,4 +1,7 @@
-<div class="row">
+<div *ngIf="cargando" class="text-center text-middle" style="margin-top: auto;">
+    <img class="preview" src="../../../assets/preview.gif">
+</div>
+<div *ngIf="!cargando" class="row">
     <div class="col-md-6 offset-md-3">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <h4>Introduzca los siguientes datos:</h4>
@@ -10,5 +13,9 @@
         </form>
         <p class="alert alert-danger" *ngIf="mensaje"> El usuario o contraseña no es correcto </p>
         <p>Si no dispone de cuenta pulse <a routerLink="/registro">aquí</a></p>
+        <button type="button" class="btn btn-block" (click)="signInWithGoogle()">
+            <i class="fa fa-google" aria-hidden="true"></i>
+            Login with Google
+        </button>
     </div>
 </div>

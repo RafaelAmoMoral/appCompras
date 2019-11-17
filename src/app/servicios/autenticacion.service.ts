@@ -7,23 +7,18 @@ import { Router } from '@angular/router';
 })
 export class AutenticacionService {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router)  {}
 
-  registroUsuario(userdata) {
-    firebase.auth().createUserWithEmailAndPassword(userdata.email, userdata.password).catch(
-      error => {
-        console.log(error);
-      })
+  registroUsuario(userdata): Promise<firebase.auth.UserCredential> {
+    return firebase.auth().createUserWithEmailAndPassword(userdata.email, userdata.password);
   }
-  inicioSesion(userdata) {
-    firebase.auth().signInWithEmailAndPassword(userdata.email, userdata.password).then(
-      response => {
-        console.log(response);
-        this.router.navigate(['/inicio']);
-      }
-    ).catch(
-      error => console.log('Usuario inválido')
-    )
+
+  inicioSesion(userdata): Promise<firebase.auth.UserCredential> {
+    return firebase.auth().signInWithEmailAndPassword(userdata.email, userdata.password);
+  }
+
+  inicioSesionWithGoogle(): Promise<firebase.auth.UserCredential> {
+    return firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
   }
 
   isAuthenticated(): boolean {
@@ -37,8 +32,8 @@ export class AutenticacionService {
     return authenticated;
   }
 
-  logout() {
-    firebase.auth().signOut();
+  logout():Promise<void> {
+    return firebase.auth().signOut();
   }
 
 }

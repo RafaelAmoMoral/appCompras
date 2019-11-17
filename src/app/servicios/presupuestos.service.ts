@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { map } from 'rxjs/operators/';
+import {Observable} from 'rxjs';
+
+
 
 
 @Injectable({
@@ -19,14 +22,8 @@ export class PresupuestosService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.post(this.presURL, newPres, { headers }).pipe( // recomiendan usar pipes ya que puedes concatenar operadores.
-      map(res => {
-        return res.json(); // De esta forma cada respuesta la modificamos y convertimos a json
-      }))
-  }
-
-  getPresupuestos() {
-    return this.http.get(this.presURL).pipe(
+    /*Gracias a pipe y al operador map, podemos transformar el flujo de datos a nuestra conveniencia*/
+    return this.http.post(this.presURL, newPres, { headers }).pipe(
       map(res => res.json())
     )
   }
@@ -36,6 +33,15 @@ export class PresupuestosService {
     return this.http.get(url).pipe(
       map(res => res.json()));
   }
+
+
+  //'https://comprasapp-46746.firebaseio.com/presupuestos.json?orderBy="$key"&startAt="b"&limitToFirst="b\uf8ff"&print=pretty'
+  // https://comprasapp-46746.firebaseio.com/presupuestos.json?orderBy="$key"&startAt="-LsTqG2CUxyd6dsMIYzP"&limitToFirst="-LtQxWjHDM0zVi5bkbRq"
+  getRangeOfPresupuestos(offset: number, startKey?){
+    const url = `${this.presURL}?orderBy="$key"&startAt="${startKey==undefined?"":startKey}"&limitToFirst=${offset+1}`;
+    return this.http.get(url).pipe(
+      map(res => res.json()));
+      }
 
   putPresupuesto(presupuesto: any, id$: string) {
     const newpre = JSON.stringify(presupuesto); const headers = new Headers({ 'Content-Type': 'application/json' });

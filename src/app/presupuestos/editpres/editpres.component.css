@@ -21,3 +21,7 @@ select.ng-valid.ng-dirty {
 .uncheck {
     color: #a94442;
 }
+
+.row {
+    justify-content: center !important;
+}

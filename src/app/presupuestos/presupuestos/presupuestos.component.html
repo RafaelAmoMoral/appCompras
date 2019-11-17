@@ -1,27 +1,44 @@
-<h3>Listado de Presupuestos</h3> <a class="btn btn-primary float-md-right" routerLink="/addpres">Añadir nuevo presupuesto</a> <br>
-<table class="table table-bordered table-striped tabla" style="margin-top: 40px;">
-    <thead>
-        <tr class="filters">
-            <th>Proveedor</th>
-            <th>Fecha</th>
-            <th>Concepto</th>
-            <th>Base</th>
-            <th>IVA</th>
-            <th>Total</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let presupuesto of presupuestos">
-            <td>{{ presupuesto.proveedor }}</td>
-            <td>{{ presupuesto.fecha }}</td>
-            <td>{{ presupuesto.concepto }}</td>
-            <td>{{ presupuesto.base }}</td>
-            <td>{{ presupuesto.iva }}</td>
-            <td>{{ presupuesto.total }}</td>
-            <td> <button type="button" class="btn btn-success" routerLink="/editpres/{{ presupuesto.id$ }}">Editar</button> </td>
-            <td> <button class="btn btn-danger" (click)="eliminarPresupuesto(presupuesto.id$)">Eliminar</button> </td>
-        </tr>
-    </tbody>
-</table>
+<div *ngIf="displayError" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>No hay ningún presupuesto</strong> pruebe a añadir alguno.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeError()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="presupuestos_container">
+    <div *ngIf="cargando" class="text-center text-middle" style="margin-top: auto;">
+        <img class="preview" src="../../../assets/preview.gif">
+    </div>
+    <div *ngIf="!cargando">
+        <h3>Listado de Presupuestos</h3> <a class="btn btn-primary float-md-right" routerLink="/addpres">Añadir nuevo presupuesto</a> <br>
+        <table class="table table-bordered table-striped tabla" style="margin-top: 40px;">
+            <thead>
+                <tr class="filters">
+                    <th>Proveedor</th>
+                    <th>Fecha</th>
+                    <th>Concepto</th>
+                    <th>Base</th>
+                    <th>IVA</th>
+                    <th>Total</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let presupuesto of presupuestos">
+                    <td>{{ presupuesto.proveedor }}</td>
+                    <td>{{ presupuesto.fecha }}</td>
+                    <td>{{ presupuesto.concepto }}</td>
+                    <td>{{ presupuesto.base }}</td>
+                    <td>{{ presupuesto.iva }}</td>
+                    <td>{{ presupuesto.total }}</td>
+                    <td> <button type="button" class="btn btn-success" routerLink="/editpres/{{ presupuesto.id$ }}">Editar</button> </td>
+                    <td> <button class="btn btn-danger" (click)="eliminarPresupuesto(presupuesto.id$)">Eliminar</button> </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="table-controls">
+            <button type="button" class="btn btn-primary" (click)="prevPage()" [disabled]="!prevKeys?.length">Página previa</button>
+            <button type="button" class="btn btn-primary" (click)="nextPage()" [disabled]="!nextKey">Página anterior</button>
+        </div>
+    </div>
+</div>
